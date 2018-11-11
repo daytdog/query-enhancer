@@ -5,7 +5,7 @@ A python class that stores the information needed to connect to a
 Mongo database
 
 Attributes:
-    database - name of the Mongo Database (default: 'test')
+    database - name of the Mongo Database (default: 'exampleDB')
     client   - name of the Mongo host client (default: 'mongodb://localhost')
     port     - port number of the Mongo Database (default: 27017)
 """
@@ -14,7 +14,7 @@ import pymongo
 
 class mongoBall(object):
 
-    def __init__(self,database='test',client='mongodb://localhost',port=27017,passProtected=False,userName='admin',userPass='password'):
+    def __init__(self,database='exampleDB',client='mongodb://localhost',port=27017,passProtected=False,userName='admin',userPass='password'):
         """ Initializes the MongoDB setup object
         Args:
             database (str or unicode): name of the Mongo database
