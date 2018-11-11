@@ -1,3 +1,4 @@
+#!/user/bin/python
 """
 textAnalyzer.py
 """

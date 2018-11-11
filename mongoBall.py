@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 mongoBall.py
 A python class that stores the information needed to connect to a
