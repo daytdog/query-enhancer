@@ -78,34 +78,51 @@ class recConfig(mongoBall):
         self.configDict = self.collection.find_one({'groupingId':self.groupingId},{'_id':0})
 
         #now that we have the config document, save the field values
+        #recConfig configurables
         self.lastProcessedDate = self.configDict.get('lastProcessedDate')
         self.recTTL = self.configDict.get('recTTL')
         self.recTotalOutput = self.configDict.get('recTotalOutput')
-        self.rlvcNumDetailsWords = self.configDict.get('rlvcNumDetailsWords')
-        self.rlvcNumPriorityLevels = self.configDict.get('rlvcNumPriorityLevels')
-        self.rlvcNumSummaryWords= self.configDict.get('rlvcNumSummaryWords')
-        self.rlvcNumWorkNoteDetailsWords = self.configDict.get('rlvcNumWorkNoteDetailsWords')
-        self.rlvcNumWorkNoteSummaryWords = self.configDict.get('rlvcNumWorkNoteSummaryWords')
-        self.rlvcNumWorkNotes = self.configDict.get('rlvcNumWorkNotes')
-        self.rlvcTimeRangeLowerBound = self.configDict.get('rlvcTimeRangeLowerBound')
-        self.rlvcTimeRangeLowerBoundCreatedDate = self.configDict.get('rlvcTimeRangeLowerBoundCreatedDate')
-        self.rlvcTimeRangeUpperBound = self.configDict.get('rlvcTimeRangeUpperBound')
-        self.rlvcTimeRangeUpperBoundCreatedDate = self.configDict.get('rlvcTimeRangeUpperBoundCreatedDate')
+
+        #Relevancy configurables
+        self.filterTopPercent = self.configDict.get('filterTopPercent')
+        self.overallRlvcWeight = self.configDict.get('overallRlvcWeight')
+        self.recEngineInputLimit = self.configDict.get('recEngineInputLimit')
+
+        #config values
+        self.rlvcNumPriorityLevels = self.configDict.get('rlvcNumPriorityLevels').get('configValue')
+        self.rlvcNumDetailsWords = self.configDict.get('rlvcNumDetailsWords').get('configValue')
+        self.rlvcNumSummaryWords = self.configDict.get('rlvcNumSummaryWords').get('configValue')
+        self.rlvcNumWorkNotes = self.configDict.get('rlvcNumWorkNotes').get('configValue')
+        self.rlvcNumWorkNoteDetailsWords = self.configDict.get('rlvcNumWorkNoteDetailsWords').get('configValue')
+        self.rlvcNumWorkNoteSummaryWords = self.configDict.get('rlvcNumWorkNoteSummaryWords').get('configValue')
+        self.rlvcTimeRangeLowerBound = self.configDict.get('rlvcTimeRangeLowerBound').get('configValue')
+        self.rlvcTimeRangeUpperBound = self.configDict.get('rlvcTimeRangeUpperBound').get('configValue')
+
+        #config weights
+        self.rlvcNumPriorityLevels_wt = self.configDict.get('rlvcNumPriorityLevels').get('weight')
+        self.rlvcNumDetailsWords_wt = self.configDict.get('rlvcNumDetailsWords').get('weight')
+        self.rlvcNumSummaryWords_wt = self.configDict.get('rlvcNumSummaryWords').get('weight')
+        self.rlvcNumWorkNotes_wt = self.configDict.get('rlvcNumWorkNotes').get('weight')
+        self.rlvcNumWorkNoteDetailsWords_wt = self.configDict.get('rlvcNumWorkNoteDetailsWords').get('weight')
+        self.rlvcNumWorkNoteSummaryWords_wt = self.configDict.get('rlvcNumWorkNoteSummaryWords').get('weight')
+        self.rlvcTimeRangeLowerBound_wt = self.configDict.get('rlvcTimeRangeLowerBound').get('weight')
+        self.rlvcTimeRangeUpperBound_wt = self.configDict.get('rlvcTimeRangeUpperBound').get('weight')
 
 class recConfig_weights(mongoBall):
 
     def __init__(self):
         #define the weighting values if the parameters are met
         self.rlvcNumDetailsWords_wt = 1.3
-        self.rlvcNumPriorityLevels_wt = 1.5
+        self.rlvcNumPriorityLevels_wt = 1.5 #1.5
         self.rlvcNumSummaryWords_wt = 1.3
-        self.rlvcNumWorkNoteDetailsWords_wt = 1.4
-        self.rlvcNumWorkNoteSummaryWords_wt = 1.4
-        self.rlvcNumWorkNotes_wt = 1.5
+        self.rlvcNumWorkNoteDetailsWords_wt = 1.4 #1.4
+        self.rlvcNumWorkNoteSummaryWords_wt = 1.4 #1.4
+        self.rlvcNumWorkNotes_wt = 1.5 #1.5
         self.rlvcTimeRangeLowerBound_wt = 1.1
         self.rlvcTimeRangeLowerBoundCreatedDate_wt = 1.1
         self.rlvcTimeRangeUpperBound_wt = 1.4
         self.rlvcTimeRangeUpperBoundCreatedDate_wt = 1.4
+        self.simmilarityRelevancyThresholdCutoff = 0.7
 
 class mongoURIBall(mongoBall):
 
@@ -130,16 +147,33 @@ class recConfigURI(mongoURIBall):
         self.configDict = self.collection.find_one({'groupingId':self.groupingId},{'_id':0})
 
         #now that we have the config document, save the field values
+        #recConfig configurables
         self.lastProcessedDate = self.configDict.get('lastProcessedDate')
         self.recTTL = self.configDict.get('recTTL')
         self.recTotalOutput = self.configDict.get('recTotalOutput')
-        self.rlvcNumDetailsWords = self.configDict.get('rlvcNumDetailsWords')
-        self.rlvcNumPriorityLevels = self.configDict.get('rlvcNumPriorityLevels')
-        self.rlvcNumSummaryWords= self.configDict.get('rlvcNumSummaryWords')
-        self.rlvcNumWorkNoteDetailsWords = self.configDict.get('rlvcNumWorkNoteDetailsWords')
-        self.rlvcNumWorkNoteSummaryWords = self.configDict.get('rlvcNumWorkNoteSummaryWords')
-        self.rlvcNumWorkNotes = self.configDict.get('rlvcNumWorkNotes')
-        self.rlvcTimeRangeLowerBound = self.configDict.get('rlvcTimeRangeLowerBound')
-        self.rlvcTimeRangeLowerBoundCreatedDate = self.configDict.get('rlvcTimeRangeLowerBoundCreatedDate')
-        self.rlvcTimeRangeUpperBound = self.configDict.get('rlvcTimeRangeUpperBound')
-        self.rlvcTimeRangeUpperBoundCreatedDate = self.configDict.get('rlvcTimeRangeUpperBoundCreatedDate')
+
+        #Relevancy configurables
+        self.filterTopPercent = self.configDict.get('filterTopPercent')
+        self.overallRlvcWeight = self.configDict.get('overallRlvcWeight')
+        self.recEngineInputLimit = self.configDict.get('recEngineInputLimit')
+
+        #config values
+        self.rlvcNumPriorityLevels = self.configDict.get('rlvcNumPriorityLevels').get('configValue')
+        self.rlvcNumDetailsWords = self.configDict.get('rlvcNumDetailsWords').get('configValue')
+        self.rlvcNumSummaryWords = self.configDict.get('rlvcNumSummaryWords').get('configValue')
+        self.rlvcNumWorkNotes = self.configDict.get('rlvcNumWorkNotes').get('configValue')
+        self.rlvcNumWorkNoteDetailsWords = self.configDict.get('rlvcNumWorkNoteDetailsWords').get('configValue')
+        self.rlvcNumWorkNoteSummaryWords = self.configDict.get('rlvcNumWorkNoteSummaryWords').get('configValue')
+        self.rlvcTimeRangeLowerBound = self.configDict.get('rlvcTimeRangeLowerBound').get('configValue')
+        self.rlvcTimeRangeUpperBound = self.configDict.get('rlvcTimeRangeUpperBound').get('configValue')
+
+        #config weights
+        self.rlvcNumPriorityLevels_wt = self.configDict.get('rlvcNumPriorityLevels').get('weight')
+        self.rlvcNumDetailsWords_wt = self.configDict.get('rlvcNumDetailsWords').get('weight')
+        self.rlvcNumSummaryWords_wt = self.configDict.get('rlvcNumSummaryWords').get('weight')
+        self.rlvcNumWorkNotes_wt = self.configDict.get('rlvcNumWorkNotes').get('weight')
+        self.rlvcNumWorkNoteDetailsWords_wt = self.configDict.get('rlvcNumWorkNoteDetailsWords').get('weight')
+        self.rlvcNumWorkNoteSummaryWords_wt = self.configDict.get('rlvcNumWorkNoteSummaryWords').get('weight')
+        self.rlvcTimeRangeLowerBound_wt = self.configDict.get('rlvcTimeRangeLowerBound').get('weight')
+        self.rlvcTimeRangeUpperBound_wt = self.configDict.get('rlvcTimeRangeUpperBound').get('weight')
+

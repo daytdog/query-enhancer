@@ -1,17 +1,9 @@
 #!/usr/bin/python
 #weighting.py
 
-import sys,os
 import jsonTools as jt
-import parseAndInsert as pai
-import textAnalyzer as ta
 import core
-from mongoBall import mongoBall
-from stopwords import stopwords
-from sparkSetup import sparkSetup
 
-from bson.objectid import ObjectId
-import json
 
 
 def grabWeightingQueryFormat(mdb_collectionType="incidents"):
@@ -24,7 +16,7 @@ def grabWeightingQueryFormat(mdb_collectionType="incidents"):
     """
     #determine the mongodb query format based on the collection/ticket type
     if mdb_collectionType == "incidents":
-        weight_query_format = {"category1":1, "category2":1, "category3":1, "prodCategory1":1, "prodCategory2":1, "prodCategory3":1, "status":1, "priority":1, "workNotes.summary":1, "workNotes.details":1, "users.name":1, "users.group":1, "reportedDate":1, "resolutionDate":1, "createdDate":1, "closedDate":1, "lastModified":1, "sortedPriority":1,"summary":1,"details":1}
+        weight_query_format = {"category1":1, "category2":1, "category3":1, "prodCategory1":1, "prodCategory2":1, "prodCategory3":1, "status":1, "priority":1, "workNotes.summary":1, "workNotes.details":1, "users.name":1, "users.group":1, "reportedDate":1, "resolutionDate":1, "createdDate":1, "closedDate":1, "lastModified":1, "sortedPriority":1,"summary":1,"details":1,"groupingId":1}
     elif mdb_collectionType == "changes":
         pass
     elif mdb_collectionType == "problems":
@@ -91,14 +83,44 @@ get the list
 
 >>> final_recommendations = sorted(final_score.collect(), key=lambda similarity: similarity[1])
 """
-
-def applyWeights(record):
+def applyWeights(record,firstPass_overallWeight=1.0):
     docId = record[0][0]
     queryId = record[0][1]
     rec_score = record[1][0]
     weight_score = record[1][1]
 
     key = (docId, queryId)
-    value = rec_score * (1 + weight_score)
+    value = rec_score*firstPass_overallWeight + weight_score
+    #value = rec_score * (1 + (weight_score * firstPass_overallWeight))
 
     return (key, value)
+
+
+#For relevancy weighting
+def parseMongoRecordRelevancy(mdb_record):
+    record_id = mdb_record.pop('_id',None)
+    record_rlvcScore = mdb_record.pop('rlvcScore',None)
+    return (record_id,record_rlvcScore)
+
+def getRelevancy(mdb_cursor):
+    rlvcList = []
+    for record in mdb_cursor:
+        rlvcList.append(parseMongoRecordRelevancy(record))
+    return rlvcList
+
+def parseRecommendation(recommendations):
+    recList = []
+    for rec in recommendations:
+        recList.append((rec[0][1],rec[1]))
+    return recList
+
+def applyRlvc(record,overallRlvcWeight=1.0):
+    queryId = record[0]
+    rec_score = record[1][0]
+    rlvc_score = record[1][1]
+
+    key = queryId
+    value = rec_score * (1 + (rlvc_score*overallRlvcWeight))
+
+    return (key, value)
+

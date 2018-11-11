@@ -13,20 +13,20 @@ import os
 
 class stopwords(object):
 
-    def __init__(self,sc,filename="stopwords.txt"):
+    #def __init__(self,sc,filename="stopwords.txt"):
+    def __init__(self,filename="stopwords.txt"):
         """ Initializes the stopwords object
         Args:
             sc (SparkContext): a Spark context environment
             filename (str or unicode): name of the text file that
                                        contains the list of stop words
         """
-        self.sc = sc
+        #self.sc = sc
         self.filename = filename
 
         #set the path to stopwords.txt
         self.stopfile = os.path.join(os.path.dirname(os.path.abspath(__file__)),self.filename)
         #grab the stopwords from stopwords.txt and put them in a set
-        #self.stopwords_set = set(self.sc.textFile(self.stopfile).collect())
         #create a backup set of stopwords in case the stopwords list needs to be reset
         self.stopwords_reset_set = set(['all','just','being','over','both','through','yourselves','its','before','herself','had','should','to','only','under','ours','has','do','them','his','very','they','not','during','now','him','nor','did','this','she','each','further','where','few','because','doing','some','are','our','ourselves','out','what','for','while','does','above','between','t','be','we','who','were','here','hers','by','on','about','of','against','s','or','own','into','yourself','down','your','from','her','their','there','been','whom','too','themselves','was','until','more','himself','that','but','don','with','than','those','he','me','myself','these','up','will','below','can','theirs','my','and','then','is','am','it','an','as','itself','at','have','in','any','if','again','no','when','same','how','other','which','you','after','most','such','why','a','off','i','yours','so','the','having','once'])
         self.stopwords_set = self.stopwords_reset_set

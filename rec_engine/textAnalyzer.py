@@ -3,8 +3,7 @@
 textAnalyzer.py
 """
 
-import re,sys,os
-import math
+import re,math
 
 FIELD_PATTERN = '^(\w+)\.*(\w*)'
 
