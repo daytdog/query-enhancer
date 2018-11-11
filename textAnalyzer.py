@@ -16,23 +16,6 @@ def removeQuotes(string):
     return ''.join(ch for ch in string if ch != '"')
 
 
-def parseDatafileLine(datafileLine, datafile_pattern):
-    """
-    Parse a line of the data file using the specified
-    regular expression pattern (is this needed?)
-    """
-
-    match = re.search(datafile_pattern, datafileLine)
-    if match is None:
-        print 'Invalid datafile line: %s' % datafileLine
-        return (datafileLine, -1)
-    elif match.group(1) == '"name"':
-        print 'Header datafile line: %s' % datafileLine
-    else:
-        product = '%s %s' % (match.group(1), match.group(2))
-        return (product, 1)
-
-
 def simpleTokenize(string, split_regex=r'\W+'):
     """
     A simple implementation of input string tokenization
@@ -69,7 +52,12 @@ def termFrequency(tokens):
             tf_dict[token] += 1
         else:
             tf_dict[token] = 1
-    return tf_dict
+    #return tf_dict
+    tf_norm = {}
+    N = len(tokens)
+    for key in tf_dict.keys():
+        tf_norm[key] = 1. * tf_dict[key] / N
+    return tf_norm
 
 
 #For cosine similarity
@@ -102,18 +90,22 @@ def invert(record):
     """
 
     id_url = record[0]
+    print id_url
     weights = record[1]
     pairs = [(token, id_url) for (token, weight) in weights.items()]
     return (pairs)
 
-def swap(record):
+def commonKeys(invRecA, invRecB):
     """
     Swap (token, (ID,URL)) to ((ID,URL), token)
     """
 
-    token = record[0]
-    keys = record[1]
-    return (keys, token)
+    tempset = set()
+    for token in set(invRecA).intersection(set(invRecB)):
+        #print token
+        tempset.add((invRecA[token],invRecB[token]), token)
+
+    return tempset
 
 def grab_field_content(jsonDoc,field):
     """
