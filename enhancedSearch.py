@@ -17,9 +17,10 @@ def usage():
 #enhanced search call
 enhancedSearch(searchQueryIn, mdb_collection, stopword_set):
     #figure out how this data is being inserted into the DB
-    mdb_captions_query_format = {"tokenized_captions":1}
+    mdb_captions_query_format = {"captions":1}
     mdb_query = mdb_collection.find({}, mdb_captions_query_format)
     query_text = jt.getText(mdb_query)
+
 
 
 
