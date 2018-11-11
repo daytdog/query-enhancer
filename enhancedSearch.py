@@ -32,12 +32,6 @@ def main():
     #get the search query input (This will be a file)
     #searchQueryIn = sys.argv[1]
 
-    #if file name doesn't exist, display usage
-    #if (os.path.exists(searchQueryIn)==0): usage()
-
-    #following MongoDB info needs to be filled here
-    #mongoDB_uri = "<MongoDB_uri here>"
-    #groupingId = "<MongoDB grouping id here>"
     mdb_collection_name = "test"
 
     #create the mongoBall and get the collection connector
