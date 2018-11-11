@@ -3,10 +3,12 @@
 enhancedSearch.py
 """
 
+import jsonTools as jt
 from mongoBall import mongoBall
 
-import sys,os
+import sys,os,datetime
 import json
+from bson.objectid import ObjectId
 
 def usage():
     print __doc__
@@ -15,9 +17,10 @@ def usage():
 #enhanced search call
 enhancedSearch(searchQueryIn, mdb_collection, stopword_set):
     #figure out how this data is being inserted into the DB
-    query_format = {"video_url":1, "tokenized_captions":1}
-    mdb_query = mdb_collection.find({},query_format)
+    mdb_captions_query_format = {"captions":1}
+    mdb_query = mdb_collection.find({}, mdb_captions_query_format)
     query_text = jt.getText(mdb_query)
+
 
 
 
