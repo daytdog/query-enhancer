@@ -9,7 +9,7 @@ are then stored on the Mongo Database in a master collection
 parseAndInsert.py infile.json <database="test"> <mclient="mongodb://localhost"> <collection="master"> <port=27017> <chunkSize=10>
 """
 
-import sys,os,pymongo,json
+import sys,os,json
 from mongoBall import mongoBall
 import jsonTools
 

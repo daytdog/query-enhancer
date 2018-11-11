@@ -1,8 +1,7 @@
 #!/usr/bin/python
 #corpusTest.py
 
-import re,sys,os,sparkSetup,jsonTools
-import math
+import re,os,jsonTools
 
 def removeQuotes(string):
     """ Remove quotation marks from an input string

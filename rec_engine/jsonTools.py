@@ -1,8 +1,6 @@
 #!/usr/bin/python
 #jsonTools.py
 
-import numpy as np
-
 #Custom Error Exception
 class CustomError(Exception):
     def __init__(self, value):
