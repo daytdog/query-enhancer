@@ -4,7 +4,7 @@ textAnalyzer.py
 """
 
 import re,sys,os
-import match
+import math
 
 FIELD_PATTERN = '^(\w+)\.*(\w*)'
 
@@ -95,15 +95,6 @@ class cosineSimilarity(object):
         """
 
         return self.dotprod(a,b) / (self.norm(a)*self.norm(b))
-
-    def cosineSimilarity(self,string1,string2,idfsDictionary):
-        """
-        Compute cosine similarity between two strings
-        """
-
-        w1 = tfidf(tokenize(string1), idfsDictionary)
-        w2 = tfidf(tokenize(string2), idfsDictionary)
-        return self.cossim(w1,w2)
 
 def invert(record):
     """
