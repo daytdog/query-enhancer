@@ -11,5 +11,12 @@ def processTranscript(youtubeUrl):
         captions += ' ' + val.get('text')
         
     return(captions)
-        
-print(processTranscript("https://www.youtube.com/watch?v=HY8HQUlepE0"))
+
+def main():
+    videoList = ["https://www.youtube.com/watch?v=GS_VcLRmCoI", "https://www.youtube.com/watch?v=g6eB8IeX_cs", "https://www.youtube.com/watch?v=FvY1fYxKFJU", "https://www.youtube.com/watch?v=DaG-y2tFBFE", "https://www.youtube.com/watch?v=JRl1FhIBeKc", "https://www.youtube.com/watch?v=DPNz6reMVXY", "https://www.youtube.com/watch?v=OvrYfsr4UDI", "https://www.youtube.com/watch?v=LOEXAn9Hj20", "https://www.youtube.com/watch?v=w525cY5FP7k"]
+    for video in videoList:
+        print(video)
+        caps = processTranscript(video)
+        print(caps)
+
+main()
